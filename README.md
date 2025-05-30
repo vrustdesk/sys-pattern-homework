@@ -53,14 +53,23 @@
 
 sudo apt install postgresql
 wget https://repo.zabbix.com/zabbix/7.0/debian/pool/main/z/zabbix-release/zabbix-release_latest_7.0+debian12_all.deb
+
 dpkg -i zabbix-release_latest_7.0+debian12_all.deb
+
 apt update
+
 apt install zabbix-server-pgsql zabbix-frontend-php php8.2-pgsql zabbix-apache-conf zabbix-sql-scripts zabbix-agent
+
 sudo -u postgres createuser --pwprompt zabbix
+
 sudo -u postgres createdb -O zabbix zabbix
+
 zcat /usr/share/zabbix-sql-scripts/postgresql/server.sql.gz | sudo -u zabbix psql zabbix
+
 sudo sed -i 's/# DBPassword=/DBPassword=zabbix/g' /etc/zabbix/zabbix_server.conf
+
 sudo systemctl restart zabbix-server zabbix-agent apache2
+
 sudo systemctl enable zabbix-server zabbix-agent apache2
 
 `Скриншот успешной авторизации в Zabbix
@@ -84,7 +93,11 @@ sudo systemctl enable zabbix-server zabbix-agent apache2
 4)Использованные команды
 
 sudo apt update
+
 sudo apt install zabbix-agent
+
 sudo sed -i 's/Server=127.0.0.1/Server=192.168.56.100'/g' /etc/zabbix/zabbix_agentd.conf
+
 sudo systemctl restart zabbix-agent 
+
 sudo systemctl enable zabbix-agent
